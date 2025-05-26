@@ -8,6 +8,7 @@
     <title>HAPPY BIRTHDAY!!!</title>
     <style>
         :root {
+            overflow: hidden;
             --vh: var(--mob-vh, 1vh);
         }
         body {
@@ -69,14 +70,8 @@
             animation: fall 4s linear infinite;
         }
         @keyframes fall {
-            0% {
-                transform: translateY(calc(var(--vh) * (-100))) rotate(0deg);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(calc(var(--vh) * 100)) rotate(720deg);
-                opacity: 0;
-            }
+            0% {transform: translateY(calc(var(--vh) * (-100))) rotate(0deg);}
+            100% {transform: translateY(calc(var(--vh) * 100)) rotate(720deg);}
         }
         .star {
             position: absolute;
@@ -224,10 +219,10 @@
         const toggleMusic = () => {
             if (isPlaying) {
                 audio.pause();
-                musicToggle.textContent = '🔇';
+                musicToggle.textContent = '🔊';
             } else {
                 audio.play();
-                musicToggle.textContent = '🔊';
+                musicToggle.textContent = '🔇';
             }
             isPlaying = !isPlaying;
         }
