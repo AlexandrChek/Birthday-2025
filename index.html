@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./public/favicon.ico" size="any">
+    <link rel="icon" href="./public/favicon.svg" type="image/svg+xml">
+    <title>HAPPY BIRTHDAY!!!</title>
+    <style>
+        :root {
+            --vh: var(--mob-vh, 1vh);
+        }
+        body {
+            margin: 0;
+            height: calc(var(--vh) * 100);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff6b6b, #cf3fc3);
+            overflow: hidden;
+            position: relative;
+        }
+        /* Кнопка управления музыкой */
+        .music-toggle {
+            position: absolute;
+            top: 2vh;
+            right: 2vw;
+            padding: 8px;
+            font-size: clamp(16px, 2vw, 24px);
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 20;
+            transition: background 0.3s;
+        }
+        .music-toggle:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        audio {
+            display: none;
+        }
+        /* Изображение happy-birthday.png */
+        .happy-birthday {
+            position: absolute;
+            top: -12px;
+            height: calc(var(--vh) * 15);
+            z-index: 10;
+        }
+        /* Изображение balloons2025.png */
+        .balloons2025 {
+            position: absolute;
+            top: calc(var(--vh) * 27.5);
+            width: min(78vw, 800px);
+            animation: fadeIn 2s ease-in-out;
+            z-index: 15;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .confetti {
+            position: absolute;
+            width: 1.1vmin;
+            height: 1.1vmin;
+            background: #f1c40f;
+            opacity: 0.8;
+            animation: fall 4s linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(calc(var(--vh) * (-100))) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(calc(var(--vh) * 100)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        .star {
+            position: absolute;
+            width: 2vmin;
+            height: 2vmin;
+            background: radial-gradient(circle, #fff 0%, #ffd700 50%, transparent 70%);
+            border-radius: 50%;
+            animation: twinkle 1.5s infinite;
+            z-index: 5;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        /* Изображение frog1.png */
+        .frog-container {
+            position: absolute;
+            bottom: calc(var(--vh) * 1.5);
+            z-index: 20;
+        }
+        .frog {
+            height: calc(var(--vh) * 29.5);
+        }
+        .frog-container.movement {
+            animation: goRight var(--movement-time) linear infinite, steps 2s linear infinite;
+        }
+        @keyframes goRight {
+            0% { left: -100px;}
+            100% { left: 100vw;}
+        }
+        @keyframes steps {
+            0% {transform: rotate(7deg);}
+            50% {transform: rotate(-7deg);}
+            100% {transform: rotate(7deg);}
+        }
+        .party-horn {
+            position: absolute;
+            top: 44%;
+            left: 64%;
+            border-top-left-radius: 50%;
+            border-bottom-left-radius: 15%;
+            width: clamp(20px, 4vw, 40px);
+            height: clamp(5px, 1vw, 10px);
+            background: #e74c3c;
+            animation: blow 1s ease-in-out infinite;
+            transform-origin: left;
+            z-index: 16;
+        }
+        @keyframes blow {
+            0%, 100% { width: clamp(20px, 4vw, 40px); }
+            50% { width: clamp(30px, 6vw, 60px); }
+        }
+        .party-horn-tip {
+            position: absolute;
+            left: 100%;
+            width: clamp(10px, 2vw, 20px);
+            height: clamp(5px, 1vw, 10px);
+            background: #c0392b; /* Более тёмный оттенок красного для кончика дудки */
+        }
+        /* Изображение balloons.png (левый угол) */
+        .balloons-left {
+            position: absolute;
+            bottom: 0;
+            left: 1vw;
+            max-width: 14vw;
+            animation: rise 10s linear infinite;
+            z-index: 5;
+        }
+        /* Изображение balloons.png (правый угол) */
+        .balloons-right {
+            position: absolute;
+            bottom: 0;
+            right: 1vw;
+            max-width: 14vw;
+            animation: rise 10s linear infinite;
+            animation-delay: 2s; /* Задержка для асинхронности */
+            z-index: 5;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(calc(var(--vh) * (-120))); }
+        }
+
+        @media (orientation: landscape) and (max-height: 400px) {
+            .balloons2025 {
+                top: 0;
+                width: 67vw;
+            }
+            .frog-container {
+                bottom: calc(var(--vh) * 0.5);
+            }
+            .party-horn {
+                top: 42.5%;
+            }
+            .party-horn, .party-horn-tip {
+                height: 4px;
+            }
+        }
+        @media (orientation: landscape) and (min-height: 401px) {
+            .balloons2025 {
+                top: calc(var(--vh) * 4);
+            }
+        }
+        @media (orientation: landscape) and (min-height: 750px) {
+            .balloons2025 {
+                top: calc(var(--vh) * 10);
+            }
+        }
+        @media (max-width: 600px) {
+            .music-toggle {
+                padding: 6px;
+                font-size: clamp(14px, 1.5vw, 20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-music" loop>
+        <source src="./assets/happy-birthday.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает воспроизведение аудио.
+    </audio>
+    <button class="music-toggle" onclick="toggleMusic()">🔊</button>
+    <img src="./assets/happy-birthday.png" alt="Happy Birthday" class="happy-birthday">
+    <img src="./assets/balloons2025.png" alt="Balloons 2025" class="balloons2025">
+    <div class="frog-container">
+        <img src="./assets/frog.png" class="frog" alt="Frog">
+        <div class="party-horn"><div class="party-horn-tip"></div></div>
+    </div>
+    <img src="./assets/balloons.png" alt="Balloons Left" class="balloons-left">
+    <img src="./assets/balloons.png" alt="Balloons Right" class="balloons-right">
+    <script>
+        const setHeightUnit = () => {
+            const vh = window.innerHeight / 100;
+            document.documentElement.style.setProperty('--mob-vh', `${vh}px`);
+        }
+        if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+            window.addEventListener('load', setHeightUnit);
+            window.addEventListener('resize', setHeightUnit);
+        }
+
+        // Управление музыкой
+        const audio = document.getElementById('background-music');
+        const musicToggle = document.querySelector('.music-toggle');
+        let isPlaying = false;
+        const toggleMusic = () => {
+            if (isPlaying) {
+                audio.pause();
+                musicToggle.textContent = '🔇';
+            } else {
+                audio.play();
+                musicToggle.textContent = '🔊';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Динамическое время анимации для лягушки
+        const speed = 25; // px/s
+        const updateFrogAnimation = () => {
+            const width = window.innerWidth;
+            const time = width / speed; // Время в секундах
+            const frog = document.querySelector('.frog-container');
+            frog.style.setProperty('--movement-time', `${time}s`);
+            frog.classList.add('movement');
+        };
+        updateFrogAnimation();
+        window.addEventListener('resize', updateFrogAnimation);
+
+        // Confetti
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.background = ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71'][Math.floor(Math.random() * 4)];
+            confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 5000);
+        }
+        setInterval(createConfetti, 100);
+
+        // Twinkling stars below happy-birthday.png
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const happyBirthdayHeight = clamp(150, 30 * window.innerWidth / 100, 300) / 2;
+            const offsetY = window.innerHeight * 0.02 + happyBirthdayHeight;
+            star.style.left = (Math.random() * 40 - 20 + window.innerWidth / 2) + 'px';
+            star.style.top = (Math.random() * 20 - 10 + offsetY) + 'px';
+            star.style.animationDelay = (Math.random() * 1) + 's';
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 1500);
+        }
+        setInterval(createStar, 300);
+
+        // Вспомогательная функция clamp
+        function clamp(min, val, max) {
+            return Math.min(Math.max(val, min), max);
+        }
+    </script>
+</body>
+</html>
